@@ -1,0 +1,62 @@
+                C++ 算法与数据结构库
+                
+一、项目简介
+
+    一个综合性的C++算法与数据结构库，包含核心数据结构和常用算法实现。本项目主要包含两种基础数据结构（动态数组和双向链表）和三种经典算法（快速排序、归并排序和KMP字符串查找），旨在展示C++编程能力和算法理解深度。
+        
+二、实现功能
+
+    1. 数据结构部分
+    
+        Vector（动态数组）
+            ① 动态扩容机制：2倍增长策略，平摊O(1)时间复杂度的尾部插入
+            ② 完整迭代器支持：提供begin()/end()迭代器，支持range-based for循环
+            ③ 核心操作：
+                push_back/pop_back：尾部插入/删除
+                operator[]：随机访问
+                size/capacity/empty：状态查询
+            ④ 拷贝控制：拷贝构造、移动语义、析构函数
+
+        List（双向链表）
+            ① 节点结构设计：包含前后指针的模板节点
+            ② 核心操作：
+                push_front/push_back：头尾插入
+                pop_front/pop_back：头尾删除
+            ③ 迭代器支持：双向遍历
+            ④ 完整的内存管理：无内存泄漏
+
+    2. 算法部分
+    
+        ① 快速排序（Quick Sort）
+            原地排序，递归实现，平均时间复杂度O(n log n)
+
+        ② 归并排序（Merge Sort）
+            稳定排序，时间复杂度O(n log n)
+            需要额外O(n)空间
+
+        ③ KMP字符串查找算法
+            构建部分匹配表（next数组）
+            时间复杂度O(n+m)，n为文本长度，m为模式长度
+            避免暴力匹配的回退，提高效率
+
+三、算法复杂度
+
+    算法/数据结构	时间复杂度	    空间复杂度	          特点
+    Vector插入	    O(n)	        O(n)	     连续内存，随机访问快
+    List插入	      O(1)	        O(1)	     任意位置插入快
+    快速排序	     O(n log n)	    O(log n)	   原地排序，递归栈空间
+    归并排序	     O(n log n)	      O(n)	     稳定排序，需要额外空间
+    KMP查找	       O(n+m)	        O(m)	     预处理模式串
+
+四、项目结构
+
+    my_lib/
+    ├── .gitignore                         // Git忽略配置
+    ├── my_lib.sln                         // Visual Studio解决方案
+    └── my_lib/                            // 主项目目录
+        ├── Vector.hpp                     // 动态数组模板类实现
+        ├── List.hpp                       // 双向链表模板类实现
+        ├── Algorithm.h                    // 算法实现（快速排序、归并排序、KMP）
+        ├── my_lib.vcxproj                 // Visual Studio项目文件
+        ├── my_lib.vcxproj.filters         // 项目过滤器
+        └── test.cpp                       // 测试程序
