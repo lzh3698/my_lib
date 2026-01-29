@@ -9,9 +9,9 @@
     **1、动态扩容机制**：2倍增长策略，平摊O(1)时间复杂度的尾部插入  
     **2、完整迭代器支持**：提供begin()/end()迭代器，支持range-based for循环  
     **3、核心操作**：  
-          push_back/pop_back：尾部插入/删除  
-          operator[]：随机访问  
-          size/capacity/empty：状态查询  
+          > push_back/pop_back：尾部插入/删除  
+          - operator[]：随机访问  
+          - size/capacity/empty：状态查询  
     **4、拷贝控制**：拷贝构造、移动语义、析构函数  
 - **List（双向链表）**  
     **1、节点结构设计**：包含前后指针的模板节点  
