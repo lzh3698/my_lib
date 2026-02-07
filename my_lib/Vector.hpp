@@ -11,11 +11,12 @@ namespace lib {
 	class Vector {
 		
 	private:
-		Allocator allocator;
-		T* vec;
-		size_t m_size;
-		size_t m_capacity;
+		Allocator allocator;	// åˆ†é…å™¨
+		T* vec;				// æŒ‡å‘å­˜å‚¨å®¹å™¨
+		size_t m_size;		// å…ƒç´ ä¸ªæ•°
+		size_t m_capacity;	// å®¹é‡
 
+		// æ‰©å®¹
 		void add_capacity() {
 			if (size() >= capacity()) {
 				size_t new_capacity = !empty() ? 2 * capacity() : 3;
@@ -32,6 +33,8 @@ namespace lib {
 		}
 
 	public:
+
+		// è¿­ä»£å™¨
 		class iterator {
 			friend class Vector;
 		private:
@@ -117,6 +120,7 @@ namespace lib {
 			}
 		};
 
+		// constè¿­ä»£å™¨
 		class const_iterator {
 			friend class Vector;
 		private:
@@ -211,7 +215,7 @@ namespace lib {
 			clear();
 		}
 
-		//¿½±´¹¹Ôì
+		//æ‹·è´æ„é€ 
 		Vector(const Vector& v) :
 			vec(allocator.allocate(v.size())),
 			m_size(v.m_size),
@@ -222,7 +226,7 @@ namespace lib {
 			}
 		}
 
-		//¿½±´¸³ÖµÔËËã·û
+		//æ‹·è´èµ‹å€¼è¿ç®—ç¬¦
 		Vector& operator=(const Vector& v) {
 			if (&v == this) {
 				return *this;
@@ -236,7 +240,7 @@ namespace lib {
 			return *this;
 		}
 
-		//ÒÆ¶¯¹¹Ôì
+		//ç§»åŠ¨æ„é€ 
 		Vector(Vector&& v) noexcept :
 			vec(v.vec),
 			m_size(v.m_size),
@@ -246,7 +250,7 @@ namespace lib {
 			v.m_size = v.m_capacity = 0;
 		}
 
-		//ÒÆ¶¯¸³ÖµÔËËã·û
+		//ç§»åŠ¨èµ‹å€¼è¿ç®—ç¬¦
 		Vector& operator=(Vector&& v) noexcept {
 			if (&v == this) {
 				return *this;
@@ -260,6 +264,7 @@ namespace lib {
 			return *this;
 		}
 
+		// ä¸‹æ ‡è®¿é—®è¿ç®—ç¬¦
 		T& operator[](size_t index) {
 			return const_cast<T&>(const_cast<const Vector&>(*this).operator[](index));
 		}
@@ -271,13 +276,14 @@ namespace lib {
 			return vec[index];
 		}
 
-
+		// å°¾æ’
 		void push_back(T val) {
 			add_capacity();
 			allocator.construct(vec + size(), std::move(val));
 			++m_size;
 		}
 
+		// å°¾åˆ 
 		void pop_back() {
 			if (empty()) {
 				throw std::out_of_range("Pop_back() out of range!");
@@ -286,6 +292,7 @@ namespace lib {
 			--m_size;
 		}
 
+		// å°¾éƒ¨ç½®å…¥
 		template<typename ...Args>
 		void emplace_back(Args &&...args) {
 			add_capacity();
@@ -293,6 +300,7 @@ namespace lib {
 			++m_size;
 		}
 
+		// è·å–ç¬¬ä¸€ä¸ªå…ƒç´ 
 		T& front() {
 			return const_cast<T&>(const_cast<const Vector&>(*this).front());
 		}
@@ -304,6 +312,7 @@ namespace lib {
 			return vec[0];
 		}
 
+		// è·å–æœ€åä¸€ä¸ªå…ƒç´ 
 		T& back() {
 			return const_cast<T&>(const_cast<const Vector&>(*this).back());
 		}
@@ -315,22 +324,23 @@ namespace lib {
 			return vec[size() - 1];
 		}
 
+		// æŒ‡å®šä½ç½®æ’å…¥
 		iterator insert(iterator iter, T val) {
 			if (end() < iter || iter < begin()) {
 				throw std::out_of_range("Insert out of range!");
 			}
-			size_t from_end = end() - iter; //¾àÀëendµÄ³¤¶È
+			size_t from_end = end() - iter; //è·ç¦»endçš„é•¿åº¦
 			add_capacity();
 			if (!from_end) {
-				//ÒªÔÚend´¦Ìí¼ÓÔªËØ£¬Ö±½ÓÌí¼Ó
+				//è¦åœ¨endå¤„æ·»åŠ å…ƒç´ ï¼Œç›´æ¥æ·»åŠ 
 				allocator.construct(vec + size(), std::move(val));
 				++m_size;
 				return begin() + size();
 			}
-			//ÒªÔÚÆäËûÎ»ÖÃÌí¼ÓÔªËØ
-			//ÔÚend´¦ÏÈ¹¹ÔìÒ»¸öÔªËØ
+			//è¦åœ¨å…¶ä»–ä½ç½®æ·»åŠ å…ƒç´ 
+			//åœ¨endå¤„å…ˆæ„é€ ä¸€ä¸ªå…ƒç´ 
 			allocator.construct(vec + size(), std::move(vec[size() - 1]));
-			//ÒÆ¶¯from_end - 1¸öÔªËØ
+			//ç§»åŠ¨from_end - 1ä¸ªå…ƒç´ 
 			int i = 1;
 			for (; i < from_end; ++i) {
 				vec[size() - i] = std::move(vec[size() - i - 1]);
@@ -340,6 +350,7 @@ namespace lib {
 			return end() - from_end - 1;
 		}
 
+		// æŒ‡å®šä½ç½®ç½®å…¥
 		template<typename ...Args>
 		iterator emplace(iterator iter, Args &&...args) {
 			if (end() < iter || iter < begin()) {
@@ -363,19 +374,24 @@ namespace lib {
 			return end() - from_end - 1;
 		}
 
+		// è·å–å…ƒç´ ä¸ªæ•°
 		size_t size() const {
 			return m_size;
 		}
 
+		// è·å–å®¹é‡
 		size_t capacity() const {
 			return m_capacity;
 		}
 		
+		// åˆ¤æ–­æ˜¯å¦ä¸ºç©º
 		bool empty() const {
 			return !size();
 		}
 
+		// åˆ é™¤å…ƒç´ 
 		iterator erase(const iterator& iter) {
+
 			if (end() < iter || end() == iter || iter < begin()) {
 				throw std::out_of_range("Insert out of range!");
 			}
@@ -389,6 +405,7 @@ namespace lib {
 			return begin() + from_begin;
 		}
 
+		// æ¸…ç©º
 		void clear() {
 			if (vec == nullptr)
 				return;
