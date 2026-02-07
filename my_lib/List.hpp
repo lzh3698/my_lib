@@ -36,7 +36,7 @@ namespace lib{
 			return cur;
 		}
 
-		node* m_head;
+		node* m_head;	// 哨兵节点
 		size_t m_size;
 
 	public :
@@ -49,10 +49,11 @@ namespace lib{
 		}
 
 		~List() {
-			clear();
+			clear();	// clear删除除了哨兵节点的其他节点
 			delete m_head;
 		}
 
+		// 拷贝构造
 		List(const List& l) : List()
 		{
 			if (!l.m_size) {
@@ -74,6 +75,7 @@ namespace lib{
 			m_size = l.m_size;
 		}
 
+		// 移动构造
 		List(List&& l) noexcept : List()
 		{
 			m_head->m_right = l.m_head->m_right;
@@ -87,12 +89,14 @@ namespace lib{
 			l.m_size = 0;
 		}
 
+		// 拷贝赋值运算符
 		List& operator=(List l) {
 			std::swap(l.m_head, m_head);
 			std::swap(l.m_size, m_size);
 			return *this;
 		}
 
+		// 迭代器，内部维护指针
 		class iterator {
 			friend class List;
 		private:
@@ -163,6 +167,7 @@ namespace lib{
 			}
 		};
 
+		// const迭代器
 		class const_iterator {
 		private:
 			friend class List;
@@ -249,6 +254,7 @@ namespace lib{
 			return const_iterator(m_head);
 		}
 
+		// 删除元素
 		void erase(const iterator& iter) {
 			if (!m_size) {
 				throw std::out_of_range("erase() out of range");
@@ -263,6 +269,7 @@ namespace lib{
 			--m_size;
 		}
 
+		// 插入元素
 		iterator insert(const iterator& iter, T val) {
 			node* pos = find_iterator(iter);
 			node* pre = pos->m_left;
@@ -273,6 +280,7 @@ namespace lib{
 			return iterator(new_node);
 		}
 
+		// 置入元素
 		template<typename ...Args>
 		iterator emplace(const iterator& iter, Args &&...args) {
 			node* pos = find_iterator(iter);
@@ -284,6 +292,7 @@ namespace lib{
 			return iterator(new_node);
 		}
 
+		// 清空元素，除了哨兵节点
 		void clear() {
 			node* cur = m_head->m_right;
 			node* end = m_head;
@@ -297,6 +306,7 @@ namespace lib{
 			m_size = 0;
 		}
 
+		// 头插
 		void push_front(T val) {
 			node* new_node = new node(m_head, m_head->m_right, std::move(val));
 			m_head->m_right = new_node;
@@ -304,6 +314,7 @@ namespace lib{
 			++m_size;
 		}
 
+		// 尾插
 		void push_back(T val) {
 			node* new_node = new node(m_head->m_left, m_head, std::move(val));
 			m_head->m_left = new_node;
@@ -311,6 +322,7 @@ namespace lib{
 			++m_size;
 		}
 
+		// 头部置入
 		template<typename ...Args>
 		void emplace_front(Args &&...args) {
 			node* new_node = new node(m_head, m_head->m_right, std::forward<Args>(args)...);
@@ -319,6 +331,7 @@ namespace lib{
 			++m_size;
 		}
 
+		// 尾部置入
 		template<typename ...Args>
 		void emplace_back(Args &&...args) {
 			node* new_node = new node(m_head->m_left, m_head, std::forward<Args>(args)...);
@@ -327,18 +340,22 @@ namespace lib{
 			++m_size;
 		}
 
+		// 获取大小
 		size_t size() {
 			return m_size;
 		}
 
+		// 判断是否为空
 		bool empty() {
 			return !size();
 		}
 
+		// 获取头部元素
 		T& front() {
 			return m_head->m_right->value;
 		}
 
+		// 获取尾部元素
 		T& back() {
 			return m_head->m_left->value;
 		}
