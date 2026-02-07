@@ -12,8 +12,6 @@ namespace lib {
 		std::default_random_engine e((unsigned int)time(NULL));
 		std::uniform_int_distribution<int> num_u(1, 1000000);
 		std::uniform_int_distribution<int> member_u(INT_MIN, INT_MAX);
-		/*std::uniform_int_distribution<int> num_u(1, 10);
-		std::uniform_int_distribution<int> member_u(0, 50);*/
 		int num = num_u(e);
 
 		arr = new int[num] {};
@@ -56,7 +54,7 @@ namespace lib {
 		quick_sort(arr, left + 1, end);
 	}
 
-	//¿ìËÙÅÅĞò
+	//å¿«é€Ÿæ’åº
 	template<typename T>
 	void quick_sort(T arr, int num) {
 		if (!arr || num <= 1)
@@ -64,6 +62,7 @@ namespace lib {
 		quick_sort(arr, 0, num - 1);
 	}
 
+	// å½’å¹¶æ’åº
 	template<typename T>
 	void recursive_sort(T* arr, int beg, int end) {
 		if (beg >= end) {
@@ -92,7 +91,7 @@ namespace lib {
 		delete[] tmp;
 	}
 
-	//¹é²¢ÅÅĞò
+	//å½’å¹¶æ’åº
 	template<typename T>
 	void recursive_sort(T *arr, int n) {
 		if (!arr || n <= 1)
@@ -100,7 +99,7 @@ namespace lib {
 		recursive_sort(arr, 0, n - 1);
 	}
 	
-	//½¨Á¢nextÊı×é
+	//å»ºç«‹nextæ•°ç»„
 	inline std::unique_ptr<int[]> get_next(const char *str, int n) {
 		std::unique_ptr<int[]> next(new int[n]);
 		next[0] = -1;
@@ -124,8 +123,8 @@ namespace lib {
 		return next;
 	}
 
-	//KMP²éÕÒ
-	//´Óstr1²éÕÒstr2
+	//KMPæŸ¥æ‰¾
+	//ä»str1æŸ¥æ‰¾str2
 	inline int str_find(const char* str1, const char* str2) {
 		if (!str1 && !str2) {
 			return -1;
@@ -141,6 +140,7 @@ namespace lib {
 		if (len2 == 0) {
 			return 0;
 		}
+
 		std::unique_ptr<int[]> next(get_next(str2, len2));
 		int cur1 = 0;
 		int cur2 = 0;
