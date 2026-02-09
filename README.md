@@ -47,11 +47,11 @@
 ## 项目结构
     my_lib/
     ├── .gitignore                         // Git忽略配置
-    ├── my_lib.sln                         // Visual Studio解决方案
-    └── my_lib/                            // 主项目目录
-        ├── Vector.hpp                     // 动态数组模板类实现
-        ├── List.hpp                       // 双向链表模板类实现
-        ├── Algorithm.h                    // 算法实现（快速排序、归并排序、KMP）
-        ├── my_lib.vcxproj                 // Visual Studio项目文件
-        ├── my_lib.vcxproj.filters         // 项目过滤器
-        └── test.cpp                       // 测试程序
+    ├── my_lib.sln                         // 解决方案文件
+    └── my_lib/                            # 主项目目录
+        ├── Vector.hpp                     # 动态数组模板类实现
+        ├── List.hpp                       # 双向链表模板类实现
+        ├── Algorithm.h                    # 算法实现（快速排序、归并排序、KMP）
+        ├── my_lib.vcxproj                 # 项目文件
+        ├── my_lib.vcxproj.filters         # 项目过滤器文件
+        └── test.cpp                       # 测试程序
