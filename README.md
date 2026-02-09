@@ -47,6 +47,7 @@
 ## 项目结构
     my_lib/
     ├── .gitignore                         # Git忽略配置
+    ├── README.md
     ├── my_lib.sln                         # 解决方案文件
     └── my_lib/                            # 主项目目录
         ├── Vector.hpp                     # 动态数组模板类实现
